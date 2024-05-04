@@ -1,5 +1,6 @@
 package com.jath.apirestspring.controller;
 
+import com.jath.apirestspring.model.dto.ClienteDto;
 import com.jath.apirestspring.model.entity.Cliente;
 import com.jath.apirestspring.service.ICliente;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,32 @@ public class ClienteController {
 
     @PostMapping("cliente")
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente create(@RequestBody Cliente cliente) {
-        return clienteService.save(cliente);
+    public ClienteDto create(@RequestBody ClienteDto clienteDto) {
+
+        Cliente clienteSave = clienteService.save(clienteDto);
+        return ClienteDto.builder()
+                .idCliente(clienteSave.getIdCliente())
+                .nombre(clienteSave.getNombre())
+                .apellidos(clienteSave.getApellidos())
+                .correo(clienteSave.getCorreo())
+                .fechaRegistro(clienteSave.getFechaRegistro())
+                .build();
+
+
     }
 
     @PutMapping("cliente")
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente update(@RequestBody Cliente cliente) {
-        return clienteService.save(cliente);
+    public ClienteDto update(@RequestBody ClienteDto clienteDto) {
+        Cliente clienteUpdate = clienteService.save(clienteDto);
+        return ClienteDto.builder()
+                .idCliente(clienteUpdate.getIdCliente())
+                .nombre(clienteUpdate.getNombre())
+                .apellidos(clienteUpdate.getApellidos())
+                .correo(clienteUpdate.getCorreo())
+                .fechaRegistro(clienteUpdate.getFechaRegistro())
+                .build();
+
     }
 
     @DeleteMapping("cliente/{id}")
@@ -49,8 +68,15 @@ public class ClienteController {
 
     @GetMapping("cliente/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Cliente showById(@PathVariable Integer id) {
-        return clienteService.findById(id);
+    public ClienteDto showById(@PathVariable Integer id) {
+        Cliente cliente = clienteService.findById(id);
+        return ClienteDto.builder()
+                .idCliente(cliente.getIdCliente())
+                .nombre(cliente.getNombre())
+                .apellidos(cliente.getApellidos())
+                .correo(cliente.getCorreo())
+                .fechaRegistro(cliente.getFechaRegistro())
+                .build();
     }
 
 }

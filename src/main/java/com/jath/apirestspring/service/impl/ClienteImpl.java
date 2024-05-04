@@ -1,6 +1,7 @@
 package com.jath.apirestspring.service.impl;
 
 import com.jath.apirestspring.model.dao.IClienteDAO;
+import com.jath.apirestspring.model.dto.ClienteDto;
 import com.jath.apirestspring.model.entity.Cliente;
 import com.jath.apirestspring.service.ICliente;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,14 @@ public class ClienteImpl implements ICliente {
 
     @Transactional
     @Override
-    public Cliente save(Cliente cliente) {
+    public Cliente save(ClienteDto clienteDto) {
+        Cliente cliente = Cliente.builder()
+                .idCliente(clienteDto.getIdCliente())
+                .nombre(clienteDto.getNombre())
+                .apellidos(clienteDto.getApellidos())
+                .correo(clienteDto.getCorreo())
+                .fechaRegistro(clienteDto.getFechaRegistro())
+                .build();
         return clienteDAO.save(cliente);
     }
 
